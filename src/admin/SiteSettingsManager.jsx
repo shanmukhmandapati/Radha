@@ -93,13 +93,28 @@ export default function SiteSettingsManager() {
             <h3 style={s.sectionHead}>Artist Photo</h3>
             <div style={{ marginBottom: '1.5rem' }}>
               {/* Current photo */}
-              <div style={{ width: 180, height: 180, borderRadius: '50%', overflow: 'hidden', border: '3px solid #f5e6d3', marginBottom: '1rem', backgroundColor: '#f5e6d3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 180, height: 180, borderRadius: '50%', overflow: 'hidden', border: '3px solid #f5e6d3', marginBottom: '0.75rem', backgroundColor: '#f5e6d3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {photoPreview ? (
-                  <img src={photoPreview} alt="Artist" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
-                ) : (
-                  <span style={{ fontSize: '3rem' }}>👩‍🎨</span>
-                )}
+                  <img
+                    src={photoPreview}
+                    alt="Artist"
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                    onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                  />
+                ) : null}
+                <span style={{ fontSize: '3rem', display: photoPreview ? 'none' : 'flex' }}>👩‍🎨</span>
               </div>
+
+              {/* Debug: show saved URL */}
+              {photoPreview && (
+                <div style={{ marginBottom: '0.75rem', maxWidth: 300 }}>
+                  <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.7rem', color: '#8a7060', marginBottom: 3 }}>Saved URL:</p>
+                  <a href={photoPreview} target="_blank" rel="noopener noreferrer"
+                    style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.7rem', color: '#c17f47', wordBreak: 'break-all', display: 'block' }}>
+                    {photoPreview}
+                  </a>
+                </div>
+              )}
 
               <div
                 onClick={() => fileRef.current.click()}
