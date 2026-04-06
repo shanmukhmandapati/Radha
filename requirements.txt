@@ -1,0 +1,51 @@
+# ============================================================
+#  Radha Rani Art Studio — Project Requirements
+#  Node.js / React project — install with: npm install
+# ============================================================
+
+# Runtime Environment
+Node.js      >= 18.0.0
+npm          >= 9.0.0
+
+# ── Production Dependencies ──────────────────────────────────
+
+react                    ^19.2.4    # UI library
+react-dom                ^19.2.4    # React DOM renderer
+react-router-dom         ^7.14.0    # Client-side routing
+framer-motion            ^12.38.0   # Animations and transitions
+tailwindcss              ^4.2.2     # Utility-first CSS framework
+@tailwindcss/vite        ^4.2.2     # Tailwind Vite plugin
+@supabase/supabase-js    ^2.101.1   # Supabase client (kept for future use)
+
+# ── Development Dependencies ─────────────────────────────────
+
+vite                         ^8.0.1     # Build tool and dev server
+@vitejs/plugin-react         ^6.0.1     # React fast-refresh plugin for Vite
+eslint                       ^9.39.4    # JavaScript linter
+eslint-plugin-react-hooks    ^7.0.1     # React Hooks lint rules
+eslint-plugin-react-refresh  ^0.5.2     # React Refresh lint rules
+@eslint/js                   ^9.39.4    # ESLint JS config
+globals                      ^17.0.0    # Global variable definitions
+@types/react                 ^19.2.14   # React TypeScript types
+@types/react-dom             ^19.2.3    # React DOM TypeScript types
+
+# ── Google Fonts (loaded via CDN — no install needed) ────────
+
+Playfair Display     — Headings, logo, signatures
+Cormorant Garamond   — Decorative serif text
+Jost                 — Body text, labels, UI
+Dancing Script       — Artist signature (cursive)
+
+# ── External Services ────────────────────────────────────────
+
+localStorage   — Primary data store for all content (no backend required)
+                 Keys: heroSlideshow, galleryPaintings, shopPaintings,
+                       events, workshops, profile, enquiries, subscribers,
+                       adminLoggedIn, adminPassword
+
+# ── Scripts ──────────────────────────────────────────────────
+
+npm run dev       # Start development server (http://localhost:5173)
+npm run build     # Production build → /dist
+npm run preview   # Preview production build locally
+npm run lint      # Run ESLint

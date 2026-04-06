@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useProfile } from '../lib/useProfile';
+import { getLocal, setLocal } from '../lib/storage';
 
 const footerLinks = ['Gallery', 'Workshops', 'Events', 'Shop', 'About', 'Contact'];
 
@@ -53,6 +55,23 @@ const PaintbrushIcon = () => (
 export default function Footer() {
   const profile = useProfile();
   const settings = { artist_name: profile.artist_name };
+  const [subEmail, setSubEmail] = useState('');
+  const [subStatus, setSubStatus] = useState(''); // 'success' | 'duplicate' | ''
+
+  const handleSubscribe = () => {
+    const email = subEmail.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+    const existing = getLocal('subscribers', []);
+    if (existing.some(s => s.email.toLowerCase() === email.toLowerCase())) {
+      setSubStatus('duplicate');
+    } else {
+      setLocal('subscribers', [...existing, { email, subscribedAt: new Date().toISOString() }]);
+      setSubStatus('success');
+      setSubEmail('');
+    }
+    setTimeout(() => setSubStatus(''), 3500);
+  };
+
   const scrollTo = (id) => {
     const el = document.getElementById(id.toLowerCase());
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -194,6 +213,9 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Your email..."
+                value={subEmail}
+                onChange={e => setSubEmail(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleSubscribe()}
                 style={{
                   flex: 1,
                   fontFamily: "'Jost', sans-serif",
@@ -208,6 +230,7 @@ export default function Footer() {
                 }}
               />
               <button
+                onClick={handleSubscribe}
                 style={{
                   fontFamily: "'Jost', sans-serif",
                   fontWeight: 600,
@@ -227,6 +250,16 @@ export default function Footer() {
                 Subscribe
               </button>
             </div>
+            {subStatus === 'success' && (
+              <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.82rem', color: '#86efac', marginTop: '0.6rem' }}>
+                ✓ You're subscribed! Thank you.
+              </p>
+            )}
+            {subStatus === 'duplicate' && (
+              <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.82rem', color: '#fca5a5', marginTop: '0.6rem' }}>
+                This email is already subscribed.
+              </p>
+            )}
           </div>
         </div>
 
