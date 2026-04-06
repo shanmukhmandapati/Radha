@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useSiteSettings } from '../lib/SiteSettingsContext';
+import { useProfile } from '../lib/useProfile';
 
 const footerLinks = ['Gallery', 'Workshops', 'Events', 'Shop', 'About', 'Contact'];
 
@@ -51,7 +51,8 @@ const PaintbrushIcon = () => (
 );
 
 export default function Footer() {
-  const { settings } = useSiteSettings();
+  const profile = useProfile();
+  const settings = { artist_name: profile.artist_name };
   const scrollTo = (id) => {
     const el = document.getElementById(id.toLowerCase());
     if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -70,7 +71,7 @@ export default function Footer() {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-12 pb-8">
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 7% 32px' }}>
         {/* Top row */}
         <div style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap', marginBottom: '3rem' }}>
           {/* Logo & tagline */}
@@ -168,10 +169,10 @@ export default function Footer() {
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {[
-                { icon: '✉️', text: 'hello@artistname.com' },
-                { icon: '📱', text: '+91 XXXXXXXXXX' },
-                { icon: '📍', text: 'Hyderabad, India' },
-                { icon: '📸', text: '@artistname' },
+                { icon: '✉️', text: profile.email || 'hello@radharani.com' },
+                { icon: '📱', text: profile.whatsapp ? `+${profile.whatsapp}` : '+91 XXXXXXXXXX' },
+                { icon: '📍', text: profile.location || 'Hyderabad, India' },
+                { icon: '📸', text: profile.instagram || '@radharaniart' },
               ].map((item) => (
                 <div key={item.text} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   <span style={{ fontSize: '0.9rem' }}>{item.icon}</span>
@@ -231,9 +232,16 @@ export default function Footer() {
 
         {/* Divider */}
         <div style={{ borderTop: '1px solid rgba(193,127,71,0.15)', paddingTop: '1.75rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.82rem', color: '#5a4030' }}>
-            © 2025 {settings.artist_name}. All rights reserved. Made with love and color.
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+            <p style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.82rem', color: '#5a4030', margin: 0 }}>
+              © 2026 {settings.artist_name}. All rights reserved.
+            </p>
+            <a href="/admin" style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.75rem', color: '#5a4030', opacity: 0.5, textDecoration: 'none', transition: 'opacity 0.3s' }}
+              onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+              onMouseLeave={e => e.currentTarget.style.opacity = '0.5'}>
+              Admin
+            </a>
+          </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ color: '#5a4030', opacity: 0.6 }}>
               <PaintbrushIcon />

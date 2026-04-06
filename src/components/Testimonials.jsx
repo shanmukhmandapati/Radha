@@ -3,21 +3,21 @@ import { motion, useInView } from 'framer-motion';
 
 const testimonials = [
   {
-    text: "Attending ARTIST_NAME's watercolor workshop was one of the most beautiful experiences of my life. She has this magical ability to simplify complex techniques and make every student feel capable and creative. I walked away with my first real painting — something I never thought I could do.",
+    text: "Attending Radha Rani's watercolor workshop was one of the most beautiful experiences of my life. She has this magical ability to simplify complex techniques and make every student feel capable and creative. I walked away with my first real painting — something I never thought I could do.",
     name: 'Priya Sharma',
     city: 'Bengaluru',
     workshop: 'Beginner Watercolor Workshop',
     stars: 5,
   },
   {
-    text: "The 1:1 coaching sessions with ARTIST_NAME completely transformed how I see color and composition. Her patience, expertise, and genuine passion for art are unmatched. My acrylic paintings now have a depth and emotion I never knew I was capable of.",
+    text: "The 1:1 coaching sessions with Radha Rani completely transformed how I see color and composition. Her patience, expertise, and genuine passion for art are unmatched. My acrylic paintings now have a depth and emotion I never knew I was capable of.",
     name: 'Arjun Mehta',
     city: 'Mumbai',
     workshop: 'Private 1:1 Coaching',
     stars: 5,
   },
   {
-    text: "I bought one of ARTIST_NAME's original paintings — 'Golden Hour' — for our living room. Every single day I look at it, I see something new. It brings such warmth and energy to our space. Her art truly speaks to the soul, just as she promises.",
+    text: "I bought one of Radha Rani's original paintings — 'Golden Hour' — for our living room. Every single day I look at it, I see something new. It brings such warmth and energy to our space. Her art truly speaks to the soul, just as she promises.",
     name: 'Kavya Reddy',
     city: 'Hyderabad',
     workshop: 'Art Collector',
@@ -121,12 +121,12 @@ export default function Testimonials() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="testimonials" ref={ref} style={{ backgroundColor: '#fdf8f3', padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="testimonials" ref={ref} style={{ backgroundColor: '#fdf8f3', padding: '80px 7%', position: 'relative', overflow: 'hidden' }}>
       {/* Decorative blobs */}
       <div style={{ position: 'absolute', top: '20%', left: -100, width: 350, height: 350, borderRadius: '60% 40% 70% 30% / 50% 60% 40% 50%', background: 'radial-gradient(ellipse, #f5e6d3, transparent)', filter: 'blur(60px)', opacity: 0.6 }} />
       <div style={{ position: 'absolute', bottom: '10%', right: -80, width: 280, height: 280, borderRadius: '40% 60% 50% 50% / 60% 40% 60% 40%', background: 'radial-gradient(ellipse, #f5e6d3, transparent)', filter: 'blur(50px)', opacity: 0.5 }} />
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

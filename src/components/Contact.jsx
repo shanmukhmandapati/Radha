@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { supabase } from '../lib/supabase';
+import { getLocal, setLocal, generateId } from '../lib/storage';
 
 const enquiryOptions = [
   'Buy a Painting',
@@ -18,22 +18,28 @@ export default function Contact() {
   const [formError, setFormError] = useState('');
 
   const handleChange = (e) => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
     setFormError('');
-    const { error } = await supabase.from('enquiries').insert({
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      enquiry_type: form.enquiry,
-      message: form.message,
-    });
-    setSubmitting(false);
-    if (error) {
-      setFormError('Something went wrong. Please try WhatsApp or email instead.');
-    } else {
+    try {
+      const enquiries = getLocal('enquiries', []);
+      enquiries.push({
+        id: generateId(),
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        enquiry_type: form.enquiry,
+        message: form.message,
+        created_at: new Date().toISOString(),
+        read: false,
+      });
+      setLocal('enquiries', enquiries);
       setSubmitted(true);
+    } catch {
+      setFormError('Something went wrong. Please try WhatsApp or email instead.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -61,11 +67,11 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" ref={ref} style={{ backgroundColor: '#f5e6d3', padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
+    <section id="contact" ref={ref} style={{ backgroundColor: '#f5e6d3', padding: '80px 7%', position: 'relative', overflow: 'hidden' }}>
       {/* Background decoration */}
       <div style={{ position: 'absolute', top: -60, right: -60, width: 350, height: 350, borderRadius: '60% 40% 70% 30% / 50% 60% 40% 50%', background: 'radial-gradient(ellipse, rgba(193,127,71,0.12), transparent)', filter: 'blur(50px)' }} />
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}

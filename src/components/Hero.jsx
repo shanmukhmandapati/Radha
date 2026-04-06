@@ -1,103 +1,80 @@
 import { motion } from 'framer-motion';
+import HeroSlideshow from './HeroSlideshow';
 
-const BlobDecoration = ({ style, color1, color2, size = 300 }) => (
-  <div
-    style={{
-      position: 'absolute',
-      width: size,
-      height: size,
-      borderRadius: '60% 40% 70% 30% / 50% 60% 40% 50%',
-      background: `radial-gradient(ellipse at center, ${color1}, ${color2})`,
-      filter: 'blur(50px)',
-      opacity: 0.55,
-      ...style,
-    }}
-  />
-);
-
-const PaintingPlaceholder = () => (
-  <motion.div
-    className="animate-painting-float"
-    style={{ position: 'relative', width: '100%', maxWidth: 460 }}
-  >
-    {/* Outer decorative ring */}
-    <div
-      style={{
-        position: 'absolute',
-        inset: -16,
-        borderRadius: '42% 58% 38% 62% / 55% 45% 55% 45%',
-        border: '2px solid rgba(193,127,71,0.25)',
-      }}
-    />
-    {/* Main painting canvas */}
-    <div
-      style={{
-        width: '100%',
-        aspectRatio: '4/5',
-        borderRadius: '38% 62% 44% 56% / 52% 48% 52% 48%',
-        background: 'linear-gradient(135deg, #f5c9a0 0%, #e8956a 25%, #d4734a 50%, #b5c4a8 75%, #8eadb5 100%)',
-        boxShadow: '0 30px 80px rgba(44,24,16,0.25), inset 0 0 60px rgba(255,255,255,0.15)',
-        position: 'relative',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Watercolor texture overlays */}
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 30%, rgba(255,220,180,0.5) 0%, transparent 60%)' }} />
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 70% 70%, rgba(180,120,80,0.4) 0%, transparent 55%)' }} />
-      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 80% 20%, rgba(142,173,181,0.5) 0%, transparent 50%)' }} />
-      {/* Brushstroke effect */}
-      <div style={{ position: 'absolute', top: '20%', left: '10%', width: '40%', height: '3px', background: 'rgba(255,255,255,0.3)', borderRadius: 4, transform: 'rotate(-8deg)', filter: 'blur(1px)' }} />
-      <div style={{ position: 'absolute', top: '40%', right: '15%', width: '30%', height: '2px', background: 'rgba(255,255,255,0.25)', borderRadius: 4, transform: 'rotate(5deg)', filter: 'blur(1px)' }} />
-      <div style={{ position: 'absolute', bottom: '30%', left: '20%', width: '50%', height: '4px', background: 'rgba(180,90,50,0.3)', borderRadius: 4, transform: 'rotate(-3deg)', filter: 'blur(2px)' }} />
-    </div>
-
-    {/* Floating paint drops */}
-    {[
-      { top: '8%', right: '5%', size: 14, color: '#e8a87c' },
-      { bottom: '15%', left: '-5%', size: 10, color: '#c17f47' },
-      { top: '50%', right: '-3%', size: 8, color: '#8b5e3c' },
-      { top: '25%', left: '2%', size: 6, color: '#e8956a' },
-    ].map((drop, i) => (
-      <motion.div
-        key={i}
-        animate={{ y: [0, -8, 0], opacity: [0.7, 1, 0.7] }}
-        transition={{ duration: 3 + i, repeat: Infinity, delay: i * 0.7 }}
-        style={{
-          position: 'absolute',
-          width: drop.size,
-          height: drop.size,
-          borderRadius: '50%',
-          background: drop.color,
-          top: drop.top,
-          right: drop.right,
-          left: drop.left,
-          bottom: drop.bottom,
-          filter: 'blur(1px)',
-          boxShadow: `0 2px 8px ${drop.color}80`,
-        }}
-      />
-    ))}
-  </motion.div>
+const BgBlobs = () => (
+  <>
+    <style>{`
+      @keyframes blobDrift1 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(20px, -25px) scale(1.05); }
+        66% { transform: translate(-10px, 15px) scale(0.97); }
+      }
+      @keyframes blobDrift2 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(-18px, 20px) scale(1.04); }
+        66% { transform: translate(12px, -18px) scale(0.98); }
+      }
+      @keyframes blobDrift3 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(15px, -12px) scale(1.06); }
+      }
+    `}</style>
+    {/* Blob 1 — pink top-right */}
+    <div style={{
+      position: 'absolute', top: -100, right: -50,
+      width: 500, height: 500, borderRadius: '50%',
+      background: 'radial-gradient(circle, rgba(255,154,158,0.25) 0%, transparent 70%)',
+      filter: 'blur(70px)', zIndex: 0, pointerEvents: 'none',
+      animation: 'blobDrift1 20s ease-in-out infinite',
+    }} />
+    {/* Blob 2 — green bottom-left */}
+    <div style={{
+      position: 'absolute', bottom: -50, left: -80,
+      width: 400, height: 400, borderRadius: '50%',
+      background: 'radial-gradient(circle, rgba(168,230,207,0.2) 0%, transparent 70%)',
+      filter: 'blur(70px)', zIndex: 0, pointerEvents: 'none',
+      animation: 'blobDrift2 20s ease-in-out infinite',
+    }} />
+    {/* Blob 3 — yellow center-right */}
+    <div style={{
+      position: 'absolute', top: '30%', right: '20%',
+      width: 300, height: 300, borderRadius: '50%',
+      background: 'radial-gradient(circle, rgba(246,211,101,0.18) 0%, transparent 70%)',
+      filter: 'blur(70px)', zIndex: 0, pointerEvents: 'none',
+      animation: 'blobDrift3 20s ease-in-out infinite',
+    }} />
+  </>
 );
 
 export default function Hero() {
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <section
       id="home"
-      style={{ backgroundColor: '#fdf8f3', minHeight: '100vh', position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}
+      style={{
+        backgroundColor: '#fdf8f3',
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        paddingTop: 110,
+        paddingBottom: 80,
+      }}
     >
-      {/* Background blobs */}
-      <BlobDecoration color1="#f5e6d3" color2="rgba(245,230,211,0)" style={{ top: '-80px', left: '-120px' }} size={500} />
-      <BlobDecoration color1="#fde8cc" color2="rgba(253,232,204,0)" style={{ bottom: '-60px', right: '-100px' }} size={420} />
-      <BlobDecoration color1="#f0d5bc" color2="rgba(240,213,188,0)" style={{ top: '40%', left: '30%' }} size={280} />
+      <BgBlobs />
 
-      <div className="max-w-7xl mx-auto px-6 w-full pt-24 pb-16">
+      <div style={{
+        maxWidth: 1280,
+        margin: '0 auto',
+        padding: '0 6%',
+        width: '100%',
+        position: 'relative',
+        zIndex: 1,
+      }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '4rem', flexWrap: 'wrap' }}>
+
           {/* Left: Text */}
           <div style={{ flex: '1 1 420px' }}>
             <motion.p
@@ -123,7 +100,7 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.4 }}
               style={{
                 fontFamily: "'Playfair Display', serif",
-                fontSize: 'clamp(3rem, 6vw, 5rem)',
+                fontSize: 'clamp(48px, 6vw, 80px)',
                 fontWeight: 700,
                 color: '#2c1810',
                 lineHeight: 1.08,
@@ -159,58 +136,17 @@ export default function Hero() {
             >
               <button
                 onClick={() => scrollTo('gallery')}
-                style={{
-                  fontFamily: "'Jost', sans-serif",
-                  fontWeight: 600,
-                  fontSize: '0.95rem',
-                  backgroundColor: '#c17f47',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '50px',
-                  padding: '14px 32px',
-                  cursor: 'pointer',
-                  letterSpacing: '0.05em',
-                  boxShadow: '0 8px 25px rgba(193,127,71,0.35)',
-                  transition: 'all 0.3s',
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#8b5e3c';
-                  e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 12px 35px rgba(193,127,71,0.45)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#c17f47';
-                  e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = '0 8px 25px rgba(193,127,71,0.35)';
-                }}
+                style={btnFilled}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#8b5e3c'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#c17f47'; e.currentTarget.style.transform = 'translateY(0)'; }}
               >
                 Explore Gallery
               </button>
               <button
                 onClick={() => scrollTo('workshops')}
-                style={{
-                  fontFamily: "'Jost', sans-serif",
-                  fontWeight: 600,
-                  fontSize: '0.95rem',
-                  backgroundColor: 'transparent',
-                  color: '#c17f47',
-                  border: '2px solid #c17f47',
-                  borderRadius: '50px',
-                  padding: '14px 32px',
-                  cursor: 'pointer',
-                  letterSpacing: '0.05em',
-                  transition: 'all 0.3s',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#c17f47';
-                  e.currentTarget.style.color = '#fff';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#c17f47';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
+                style={btnOutline}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#c17f47'; e.currentTarget.style.color = '#fff'; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#c17f47'; }}
               >
                 Join a Workshop
               </button>
@@ -223,41 +159,56 @@ export default function Hero() {
               transition={{ duration: 1, delay: 1.1 }}
               style={{ display: 'flex', gap: '2rem', marginTop: '3rem', flexWrap: 'wrap' }}
             >
-              {[['200+', 'Paintings'], ['1500+', 'Students'], ['80+', 'Workshops']].map(([num, label]) => (
-                <div key={label}>
-                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.6rem', fontWeight: 700, color: '#c17f47' }}>{num}</div>
-                  <div style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.8rem', color: '#8a7060', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{label}</div>
+              {[['200+', 'Paintings'], ['1500+', 'Students'], ['80+', 'Workshops']].map(([n, l]) => (
+                <div key={l}>
+                  <div style={{ fontFamily: "'Playfair Display', serif", fontSize: '1.6rem', fontWeight: 700, color: '#c17f47' }}>{n}</div>
+                  <div style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.8rem', color: '#8a7060', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{l}</div>
                 </div>
               ))}
             </motion.div>
           </div>
 
-          {/* Right: Painting */}
+          {/* Right: Slideshow */}
           <motion.div
             initial={{ opacity: 0, x: 60, scale: 0.92 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.5, ease: 'easeOut' }}
-            style={{ flex: '1 1 380px', display: 'flex', justifyContent: 'center', position: 'relative' }}
+            style={{ flex: '1 1 380px', display: 'flex', justifyContent: 'center' }}
           >
-            <PaintingPlaceholder />
+            <HeroSlideshow />
           </motion.div>
+
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}
-      >
-        <span style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.72rem', color: '#8a7060', letterSpacing: '0.2em', textTransform: 'uppercase' }}>Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          style={{ width: 1, height: 40, background: 'linear-gradient(to bottom, #c17f47, transparent)' }}
-        />
-      </motion.div>
     </section>
   );
 }
+
+const btnFilled = {
+  fontFamily: "'Jost', sans-serif",
+  fontWeight: 600,
+  fontSize: '0.95rem',
+  backgroundColor: '#c17f47',
+  color: '#fff',
+  border: 'none',
+  borderRadius: '50px',
+  padding: '14px 32px',
+  cursor: 'pointer',
+  letterSpacing: '0.05em',
+  boxShadow: '0 8px 25px rgba(193,127,71,0.35)',
+  transition: 'all 0.3s',
+};
+
+const btnOutline = {
+  fontFamily: "'Jost', sans-serif",
+  fontWeight: 600,
+  fontSize: '0.95rem',
+  backgroundColor: 'transparent',
+  color: '#c17f47',
+  border: '2px solid #c17f47',
+  borderRadius: '50px',
+  padding: '14px 32px',
+  cursor: 'pointer',
+  letterSpacing: '0.05em',
+  transition: 'all 0.3s',
+};

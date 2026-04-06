@@ -3,28 +3,17 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App.jsx';
-import AdminLogin from './pages/AdminLogin.jsx';
-import Admin from './pages/Admin.jsx';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
-import { SiteSettingsProvider } from './lib/SiteSettingsContext.jsx';
+import AdminLogin from './admin/AdminLogin.jsx';
+import AdminDashboard from './admin/AdminDashboard.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <SiteSettingsProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute>
-                <Admin />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </SiteSettingsProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      </Routes>
+    </BrowserRouter>
   </StrictMode>
 );
