@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { getLocal, setLocal, generateId } from '../lib/storage';
+import { useProfile } from '../lib/useProfile';
 
 const enquiryOptions = [
   'Buy a Painting',
@@ -10,6 +11,7 @@ const enquiryOptions = [
 ];
 
 export default function Contact() {
+  const profile = useProfile();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const [form, setForm] = useState({ name: '', email: '', phone: '', enquiry: '', message: '' });
@@ -174,7 +176,7 @@ export default function Contact() {
           >
             {/* WhatsApp */}
             <a
-              href="https://wa.me/91XXXXXXXXXX"
+              href={profile.whatsapp ? `https://wa.me/${profile.whatsapp}` : '#'}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -197,22 +199,36 @@ export default function Contact() {
               </svg>
               <div>
                 <div style={{ fontFamily: "'Jost', sans-serif", fontWeight: 700, fontSize: '1rem' }}>Chat on WhatsApp</div>
-                <div style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.82rem', opacity: 0.9 }}>+91 XXXXXXXXXX</div>
+                <div style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.82rem', opacity: 0.9 }}>
+                  {profile.whatsapp ? `+${profile.whatsapp}` : '+91 XXXXXXXXXX'}
+                </div>
               </div>
             </a>
 
             {/* Contact details */}
             {[
-              { icon: '✉️', label: 'Email', value: 'hello@artistname.com', href: 'mailto:hello@artistname.com' },
-              { icon: '📸', label: 'Instagram', value: '@artistname', href: '#' },
-              { icon: '📍', label: 'Location', value: 'Hyderabad, India', href: null },
+              { icon: '✉️', label: 'Email', value: profile.email || 'hello@artistname.com', href: `mailto:${profile.email || 'hello@artistname.com'}` },
+              { icon: '📸', label: 'Instagram', value: profile.instagram || '@artistname', href: profile.instagram ? `https://instagram.com/${profile.instagram.replace('@', '')}` : '#' },
+              ...(profile.youtube ? [{ icon: 'yt', label: 'YouTube', value: profile.youtube.replace('https://', '').replace('www.', ''), href: profile.youtube }] : []),
+              ...(profile.facebook ? [{ icon: 'fb', label: 'Facebook', value: profile.facebook.replace('https://', '').replace('www.', ''), href: profile.facebook }] : []),
+              { icon: '📍', label: 'Location', value: profile.location || 'Hyderabad, India', href: null },
             ].map((item) => (
               <div key={item.label} style={{ backgroundColor: '#fff9f4', borderRadius: 14, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14, boxShadow: '0 3px 15px rgba(44,24,16,0.06)', border: '1px solid #f5e6d3' }}>
-                <span style={{ fontSize: '1.4rem' }}>{item.icon}</span>
+                <span style={{ fontSize: '1.4rem', width: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  {item.icon === 'yt' ? (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#FF0000">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                  ) : item.icon === 'fb' ? (
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#1877F2">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  ) : item.icon}
+                </span>
                 <div>
                   <div style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.75rem', fontWeight: 600, color: '#8a7060', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{item.label}</div>
                   {item.href ? (
-                    <a href={item.href} style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.95rem', fontWeight: 500, color: '#c17f47', textDecoration: 'none' }}>{item.value}</a>
+                    <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.95rem', fontWeight: 500, color: '#c17f47', textDecoration: 'none' }}>{item.value}</a>
                   ) : (
                     <div style={{ fontFamily: "'Jost', sans-serif", fontSize: '0.95rem', fontWeight: 500, color: '#2c1810' }}>{item.value}</div>
                   )}

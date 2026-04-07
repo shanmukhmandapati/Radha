@@ -53,6 +53,8 @@ export const DEFAULT_PROFILE = {
   whatsapp: '919XXXXXXXXX',
   email: 'hello@radharani.com',
   instagram: '@radharaniart',
+  youtube: '',
+  facebook: '',
   location: 'Hyderabad, India',
   paintings_count: '200+',
   students_count: '1500+',

@@ -79,6 +79,8 @@ export default function ProfileManager() {
             <Field label="WhatsApp (with country code)" value={profile.whatsapp} onChange={set('whatsapp')} placeholder="919XXXXXXXXX" />
             <Field label="Email" value={profile.email} onChange={set('email')} placeholder="hello@radharani.com" />
             <Field label="Instagram Handle" value={profile.instagram} onChange={set('instagram')} placeholder="@radharaniart" />
+            <Field label="YouTube Channel URL" value={profile.youtube} onChange={set('youtube')} placeholder="https://youtube.com/@radharaniart" />
+            <Field label="Facebook Page URL" value={profile.facebook} onChange={set('facebook')} placeholder="https://facebook.com/radharaniart" />
             <Field label="Location / City" value={profile.location} onChange={set('location')} placeholder="Hyderabad, India" />
           </div>
 
